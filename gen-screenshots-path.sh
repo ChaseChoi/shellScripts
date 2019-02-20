@@ -140,6 +140,7 @@ returnToPreDir() {
     if [[ -d "${previousWorkingDir}" && "${lineNumber}" -gt 1 ]]; then
         deleteLastLog "${currentImgFolderInfoFile}"
         displayWorkingDir
+        writeLog '-' "${operationLogFile}"
     else
         # directory deleted OR no previous log
         errorInfo "${noPreviousWorkingDir}"
