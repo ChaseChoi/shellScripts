@@ -12,6 +12,7 @@ failToUndo="Fail to undo!"
 screenshotNotFound="Screenshot Not Found!"
 emptyWorkingDir="Please define working directory first!"
 noPreviousWorkingDir="No previous working directory!"
+invalidPath="Invalid directory path!"
 separator='-'
 
 # Auxiliary Functions
@@ -65,12 +66,16 @@ deleteLastLog() {
 
 # -d
 definePath() {
-    imageFolderPath=$1
-    # store info
-    writeLog "$imageFolderPath" "$currentImgFolderInfoFile"
-    # Write a separator
-    writeLog '-' "${operationLogFile}"
-    displayWorkingDir
+    imageFolderPath="$1"
+    if [[ -d "$1" ]]; then
+        # store info
+        writeLog "$imageFolderPath" "$currentImgFolderInfoFile"
+        # Write a separator
+        writeLog '-' "${operationLogFile}"
+        displayWorkingDir
+    else
+        errorInfo "${invalidPath}"
+    fi
 }
 # -c
 displayWorkingDir() {
@@ -80,6 +85,7 @@ displayWorkingDir() {
         echo -e "\033[1;36;40m Current image folder: ${currentImgFolder} \033[0m"
     else
         errorInfo "${emptyWorkingDir}"
+        exit 1
     fi
 }
 # -o
@@ -90,6 +96,7 @@ openWorkingDir() {
         open "${currentImgFolder}"
     else
         errorInfo "${emptyWorkingDir}"
+        exit 1
     fi
     
 }
@@ -133,6 +140,7 @@ returnToPreDir() {
     else
         # directory deleted OR no previous log
         errorInfo "${noPreviousWorkingDir}"
+        exit 1
     fi
 }
 
@@ -189,6 +197,7 @@ imageList=`find ${desktopPath} \( -name "*.png" -o -name "*.jpg" -o -name "*.gif
 # Screenshot not found
 if [[ -z $imageList ]]; then
     errorInfo "${screenshotNotFound}"
+    exit 1
 else
     # Find the latest image file
     image=`ls -t $desktopPath | egrep '\.png$|\.jpg$|\.gif$' | head -n 1`
