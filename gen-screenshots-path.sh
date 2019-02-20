@@ -221,13 +221,14 @@ else
     writeLog "${currentImgFolder}/${image}" "${operationLogFile}"
     
     # Construct markdown image path
-    imageName=`basename ${image}`
-    parentDirectory=${currentImgFolder##*/}
+    imageName=`basename "${image}"`
+    parentDirectory="${currentImgFolder##*/}"
     relativePath="${parentDirectory}/${imageName}"
     # Remove file extension
-    extractedName=${imageName%.*}
+    extractedName="${imageName%.*}"
     stmt="![${extractedName}](${relativePath})"
+    
     # Copy to clipboard
-    echo ${stmt} | tee pbcopy
+    echo "${stmt}" | tee >(pbcopy)
     successInfo "${copied}"
 fi
