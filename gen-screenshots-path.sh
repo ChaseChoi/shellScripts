@@ -97,12 +97,12 @@ undoFunction() {
     checkLogFile
     previousImage=`tail -n 1 ${logFile}`
     
-    if [[ "${previousImage}" = "${separator}" ]]; then
+    if [[ "${previousImage}" = "${separator}" || ! -e "${previousImage}" ]]; then
         errorInfo "${failToUndo}"
         exit 1
     else
-        deleteLastLog
         mv "${previousImage}" "${desktopPath}"
+        deleteLastLog
         successInfo "Move ${previousImage} back to ${desktopPath}"
     fi
     
