@@ -13,6 +13,7 @@ screenshotNotFound="Screenshot Not Found!"
 emptyWorkingDir="Please define working directory first!"
 noPreviousWorkingDir="No previous working directory!"
 invalidPath="Invalid directory path!"
+cacheCleared="Cache has been cleared!"
 separator='-'
 
 # Auxiliary Functions
@@ -84,6 +85,7 @@ displayWorkingDir() {
     if [[ -d "${currentImgFolder}" ]]; then
         echo -e "\033[1;36;40m Current image folder: ${currentImgFolder} \033[0m"
     else
+        # if deleted
         errorInfo "${emptyWorkingDir}"
         exit 1
     fi
@@ -109,6 +111,7 @@ helpInfo() {
     echo -e "    cmd -o \t Open working directory."
     echo -e "    cmd -u \t Undo: Move image back to Desktop."
     echo -e "    cmd -r \t Return to previous working directory."
+    echo -e "    cmd -e \t Empty cache files."
     echo
 }
 
@@ -144,8 +147,14 @@ returnToPreDir() {
     fi
 }
 
+# -e
+emptyCache() {
+    [ -e "${currentImgFolderInfoFile}" ] && rm "${currentImgFolderInfoFile}"
+    [ -e "${operationLogFile}" ] && rm "${operationLogFile}"
+    successInfo "${cacheCleared}"
+}
 # Handle options and arguments
-while getopts ":d:hcoru" opt; do
+while getopts ":d:hcorue" opt; do
     case ${opt} in
         d )
             definePath "$OPTARG"
@@ -169,6 +178,10 @@ while getopts ":d:hcoru" opt; do
         ;;
         u )
             undoFunction
+            exit 0
+        ;;
+        e)
+            emptyCache
             exit 0
         ;;
         \? )
