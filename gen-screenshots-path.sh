@@ -104,7 +104,7 @@ openWorkingDir() {
 }
 # -h
 helpInfo() {
-    echo "Usage:"
+    echo -e "\033[1m Usage:\033[0m"
     echo -e "    cmd -d working-directory \t Define working directory."
     echo -e "    cmd -h \t Display this help message."
     echo -e "    cmd -c \t Check working directory."
