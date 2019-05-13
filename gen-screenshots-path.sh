@@ -126,7 +126,10 @@ undoFunction() {
     else
         mv "${previousImage}" "${desktopPath}"
         deleteLastLog "${operationLogFile}"
-        successInfo "Move ${previousImage} back to ${desktopPath}"
+        filename=`basename ${previousImage}`
+        source="\033[1;31m - ${previousImage} \033[0m"
+        target="\033[1;32m + ${desktopPath}/${filename} \033[0m"
+        echo -e "${source}\n${target}"
     fi
     
 }
