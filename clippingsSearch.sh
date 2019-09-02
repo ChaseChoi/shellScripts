@@ -1,11 +1,13 @@
 #!/bin/bash
+
+titleBeginModifier="\033[1;37;40m"
+warningBeginModifier="\033[1;31m"
+endModifier="\033[0m"
+
 if [[ $# -eq 1 ]]; then
     clippings="My Clippings.txt"
     # clippings="test"
-    titleBeginModifier="\033[1;37;40m"
-    warningBeginModifier="\033[1;31m"
-    endModifier="\033[0m"
-
+   
     if [[ -e ${clippings} ]]; then
         timestamp=`date +%T`
         echo -e "${warningBeginModifier}${timestamp}\n>>>BEGIN${endModifier}"
@@ -48,5 +50,6 @@ if [[ $# -eq 1 ]]; then
         echo -e "${warningBeginModifier}No such file: ${clippings}${endModifier}"
     fi
 else
-    echo "Usage: $0 [title|author]"
+    echo -e "Usage: ${0} [title|author]"
+    echo -e "Description:\n  A simple search tool for kindle clippings. Keywords are supposed to be lower case."
 fi
