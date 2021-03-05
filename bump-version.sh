@@ -28,6 +28,7 @@ while getopts ":cmnph" opt; do
   case ${opt} in
  	c )
 		commitMsg="Release ${versionNumber}(${buildNumber})"
+		echo -e "\033[1;32m${commitMsg}\033[0m"
 		git add ${plistPath}
 		git commit -m "${commitMsg}"
       	exit 0
