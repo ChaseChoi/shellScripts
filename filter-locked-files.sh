@@ -5,11 +5,13 @@ if [[ $# -eq 1 ]]; then
     cd "$1"
     locked_files=`ls -lO | tr -s " " | cut -d " " -f 5,10 | egrep "uchg" | cut -d " " -f 2`
 
-    mkdir $timestamp
-    for file in $locked_files; do
-        # remove uchg flag
-        chflags nouchg $file
-        mv $file $timestamp
-        echo "Move $file to $timestamp"
-    done
+    if [[ -n $locked_files ]]; then
+        mkdir $timestamp
+        for file in $locked_files; do
+            # remove uchg flag
+            chflags nouchg $file
+            mv $file $timestamp
+            echo "Move $file to $timestamp"
+        done
+    fi
 fi
