@@ -67,7 +67,9 @@ deleteLastLog() {
 
 # -d
 definePath() {
-    imageFolderPath="$1"
+    notesBaseFolderPath="$1"
+    imageFolderPath="${notesBaseFolderPath}/images"
+    mkdir -p "${notesBaseFolderPath}/images"
     if [[ -d "$1" ]]; then
         # store info
         writeLog "$imageFolderPath" "$currentImgFolderInfoFile"
@@ -83,7 +85,7 @@ displayWorkingDir() {
     checkCurrentImgFolderInfo
     currentImgFolder=`tail -n 1 "${currentImgFolderInfoFile}"`
     if [[ -d "${currentImgFolder}" ]]; then
-        echo -e "\033[1;36;40m Current image folder: ${currentImgFolder} \033[0m"
+        echo -e "\033[1;36;40m Current working folder: ${currentImgFolder%/*} \033[0m"
     else
         # if deleted
         errorInfo "${emptyWorkingDir}"
