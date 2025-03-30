@@ -4,8 +4,10 @@
 
 desktopPath="$HOME/Desktop"
 # Filename
-currentImgFolderInfoFile="currentImgFolder.log"
-operationLogFile="imageOperations.log"
+base_path=`dirname ${0}`
+currentImgFolderInfoFile="${base_path}/currentImgFolder.log"
+operationLogFile="${base_path}/imageOperations.log"
+
 # Message
 copied="Copied to clipboard successfully!"
 failToUndo="Fail to undo!"
