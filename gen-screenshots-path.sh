@@ -98,8 +98,9 @@ displayWorkingDir() {
 openWorkingDir() {
     checkCurrentImgFolderInfo
     currentImgFolder=`tail -n 1 "${currentImgFolderInfoFile}"`
-    if [[ -d "${currentImgFolder}" ]]; then
-        open "${currentImgFolder}"
+    currentWorkingDirectory=`dirname ${currentImgFolder}`
+    if [[ -d "${currentWorkingDirectory}" ]]; then
+        open -a "Typora" "${currentWorkingDirectory}"
     else
         errorInfo "${emptyWorkingDir}"
         exit 1
